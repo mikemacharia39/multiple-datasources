@@ -1,0 +1,62 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="Mikehenry (generated)" id="202112051900">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="product"/>
+            </not>
+        </preConditions>
+        <createTable tableName="product">
+            <column autoIncrement="true" name="productID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="productName" type="VARCHAR(100)">
+                <constraints unique="true"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="price" type="DOUBLE" />
+            <column name="active" type="TINYINT(1)" defaultValue="1"/>
+            <column name="dateCreated" type="datetime(6)"/>
+            <column name="dateModified" type="datetime(6)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Mikehenry (generated)" id="202112051901">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="payment"/>
+            </not>
+        </preConditions>
+        <createTable tableName="payment">
+            <column autoIncrement="true" name="paymentID" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="customerID" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="productID" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="quantity" type="INT" />
+            <column name="unitPrice" type="DOUBLE">
+                <constraints nullable="false" />
+            </column>
+            <column name="totalPrice" type="DOUBLE">
+                <constraints nullable="false" />
+            </column>
+            <column name="active" type="TINYINT(1)" defaultValue="1"/>
+            <column name="dateCreated" type="datetime(6)"/>
+            <column name="dateModified" type="datetime(6)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Mikehenry (generated)" id="202112051902">
+
+        <createIndex tableName="payment" indexName="idx_customerID">
+            <column name="customerID"/>
+        </createIndex>
+        <createIndex tableName="payment" indexName="idx_productID">
+            <column name="productID"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
