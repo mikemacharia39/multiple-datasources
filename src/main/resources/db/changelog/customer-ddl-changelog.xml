@@ -15,11 +15,14 @@
             <column name="firstName" type="VARCHAR(40)"/>
             <column name="lastName" type="VARCHAR(40)"/>
             <column name="emailAddress" type="VARCHAR(100)">
-                <constraints unique="true"/>
+                <constraints unique="true" nullable="false"/>
             </column>
             <column name="status" type="VARCHAR(30)"/>
             <column name="dateCreated" type="datetime(6)"/>
             <column name="dateModified" type="datetime(6)"/>
         </createTable>
+        <modifySql  dbms="mysql">
+            <append  value="engine innodb CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci"/>
+        </modifySql>
     </changeSet>
 </databaseChangeLog>

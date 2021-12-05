@@ -21,6 +21,9 @@
             <column name="dateCreated" type="datetime(6)"/>
             <column name="dateModified" type="datetime(6)"/>
         </createTable>
+        <modifySql dbms="mysql">
+            <append value="engine innodb CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci"/>
+        </modifySql>
     </changeSet>
     <changeSet author="Mikehenry (generated)" id="202112051901">
         <preConditions onFail="MARK_RAN">
@@ -49,6 +52,9 @@
             <column name="dateCreated" type="datetime(6)"/>
             <column name="dateModified" type="datetime(6)"/>
         </createTable>
+        <modifySql dbms="mysql">
+            <append value="engine innodb CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci"/>
+        </modifySql>
     </changeSet>
     <changeSet author="Mikehenry (generated)" id="202112051902">
 

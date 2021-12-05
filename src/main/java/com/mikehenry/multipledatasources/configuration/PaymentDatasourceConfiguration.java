@@ -1,7 +1,9 @@
 package com.mikehenry.multipledatasources.configuration;
 
 
+import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -40,6 +42,7 @@ public class PaymentDatasourceConfiguration {
         paymentJpaProperties.put("show-sql", "true");
         paymentJpaProperties.put("generate-ddl", "false");
         paymentJpaProperties.put("database", "mysql");
+        paymentJpaProperties.put("physical-strategy", "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl");
 
         return entityManagerFactoryBuilder
                 .dataSource(paymentDatasource)
@@ -49,9 +52,20 @@ public class PaymentDatasourceConfiguration {
                 .build();
     }
 
-
+    @Bean(name = "paymentTransactionManager")
     public PlatformTransactionManager paymentTransactionManager(
             @Qualifier("paymentEntityManagerFactory") EntityManagerFactory paymentEntityManagerFactory) {
         return new JpaTransactionManager(paymentEntityManagerFactory);
+    }
+
+    @Bean
+    @ConfigurationProperties(prefix = "spring.payment.datasource.liquibase")
+    public LiquibaseProperties paymentLiquibaseProperty() {
+        return new LiquibaseProperties();
+    }
+
+    @Bean
+    public SpringLiquibase paymentSpringLiquibase() {
+        return CustomerDatasourceConfiguration.springLiquibase(paymentDatasource(), paymentLiquibaseProperty());
     }
 }
